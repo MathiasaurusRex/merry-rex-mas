@@ -1,0 +1,26 @@
+{
+  "name": "merry-rex-mas",
+  "version": "1.0.0",
+  "description": "Coming Winter 2018",
+  "main": "index.js",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathiasaurusRex/merry-rex-mas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MathiasaurusRex/merry-rex-mas/issues"
+  },
+  "homepage": "https://github.com/MathiasaurusRex/merry-rex-mas#readme"
+}
