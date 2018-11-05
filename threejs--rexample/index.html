@@ -78,7 +78,7 @@
       camera.add(pointLight);
       scene.add(camera);
 
-      // scene = new THREE.Scene();
+      // Below this is the snow field
       scene.fog = new THREE.FogExp2(0x000000, 0.0008);
 
       var geometry = new THREE.BufferGeometry();
@@ -115,6 +115,8 @@
         particles.rotation.z = Math.random() * 6;
         scene.add(particles);
       }
+
+      // Above this is the snow field
 
       // manager
 
@@ -217,8 +219,9 @@
 
     function render() {
       var time = Date.now() * 0.00005;
-      camera.position.x += (mouseX - camera.position.x) * .05;
-      camera.position.y += (- mouseY - camera.position.y) * .005;
+      camera.position.x += (mouseX - camera.position.x) * .001;
+      camera.position.y += (- mouseY - camera.position.y) * .001;
+
       for (var i = 0; i < scene.children.length; i++) {
         var object = scene.children[i];
         if (object instanceof THREE.Points) {
