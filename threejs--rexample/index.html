@@ -2,42 +2,74 @@
 <html lang="en">
 
 <head>
-  <title>three.js webgl - loaders - OBJ loader</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <style>
-    body {
-      font-family: Monospace;
-      background-color: #000;
-      color: #fff;
-      margin: 0px;
-      overflow: hidden;
-    }
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Merry Rexmas</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    #info {
-      color: #fff;
-      position: absolute;
-      top: 10px;
-      width: 100%;
-      text-align: center;
-      z-index: 100;
-      display: block;
-    }
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
 
-    #info a,
-    .button {
-      color: #f00;
-      font-weight: bold;
-      text-decoration: underline;
-      cursor: pointer
-    }
-  </style>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/player.css">
 </head>
 
 <body>
 
+
+
+  <div class="screen-decoration">
+
+    <div id="title">
+      <span id="track"></span>
+      <div id="timer">0:00</div>
+      <div id="duration">0:00</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controlsOuter">
+
+      <button class="btn" id="playlistBtn"></button>
+      <div class="controlsInner">
+        <div id="loading"></div>
+
+        <button class="btn" id="prevBtn"></button>
+        <button class="btn" id="playBtn"></button>
+        <button class="btn" id="pauseBtn"></button>
+        <button class="btn" id="nextBtn"></button>
+      </div>
+      <button class="btn" id="volumeBtn"></button>
+    </div>
+
+    <!-- Progress -->
+    <div id="waveform"></div>
+    <div id="bar"></div>
+    <div id="progress"></div>
+
+    <!-- Playlist -->
+    <div id="playlist" tabindex="1">
+      <div id="list"></div>
+    </div>
+
+    <!-- Volume -->
+    <div id="volume" class="fadeout">
+      <div id="barFull" class="bar"></div>
+      <div id="barEmpty" class="bar"></div>
+      <div id="sliderBtn"></div>
+    </div>
+  </div>
+
+  <!-- ThreeJS -->
   <script src="./js/vendor/three.min.js"></script>
   <script src="js/loaders/OBJLoader.js"></script>
+
+  <!-- Audio Player -->
+  <script src="./js/vendor/howler.core.min.js"></script>
+  <script src="./js/vendor/siriwave.js"></script>
+  <script src="./js/vendor/player.js"></script>
 
   <script>
 
@@ -240,6 +272,7 @@
     }
 
   </script>
+
 
 </body>
 
