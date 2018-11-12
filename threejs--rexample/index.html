@@ -1,279 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Merry Rexmas</title>
+    <meta name="description" content="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Merry Rexmas</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="apple-touch-icon" href="icon.png" />
+    <!-- Place favicon.ico in the root directory -->
 
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
-  <!-- Place favicon.ico in the root directory -->
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/player.css" />
+  </head>
 
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/player.css">
-</head>
-
-<body>
-
-
-
-  <div class="screen-decoration">
-
-    <div id="title">
-      <span id="track"></span>
-      <div id="timer">0:00</div>
-      <div id="duration">0:00</div>
-    </div>
-
-    <!-- Controls -->
-    <div class="controlsOuter">
-
-      <button class="btn" id="playlistBtn"></button>
-      <div class="controlsInner">
-        <div id="loading"></div>
-
-        <button class="btn" id="prevBtn"></button>
-        <button class="btn" id="playBtn"></button>
-        <button class="btn" id="pauseBtn"></button>
-        <button class="btn" id="nextBtn"></button>
+  <body>
+    <div class="screen-decoration">
+      <div id="title">
+        <span id="track"></span>
+        <div id="timer">0:00</div>
+        <div id="duration">0:00</div>
       </div>
-      <button class="btn" id="volumeBtn"></button>
+
+      <!-- Controls -->
+      <div class="controlsOuter">
+        <button class="btn" id="playlistBtn"></button>
+        <div class="controlsInner">
+          <div id="loading"></div>
+
+          <button class="btn" id="prevBtn"></button>
+          <button class="btn" id="playBtn"></button>
+          <button class="btn" id="pauseBtn"></button>
+          <button class="btn" id="nextBtn"></button>
+        </div>
+        <button class="btn" id="volumeBtn"></button>
+      </div>
+
+      <!-- Progress -->
+      <div id="waveform"></div>
+      <div id="bar"></div>
+      <div id="progress"></div>
+
+      <!-- Playlist -->
+      <div id="playlist" tabindex="1"><div id="list"></div></div>
+
+      <!-- Volume -->
+      <div id="volume" class="fadeout">
+        <div id="barFull" class="bar"></div>
+        <div id="barEmpty" class="bar"></div>
+        <div id="sliderBtn"></div>
+      </div>
     </div>
 
-    <!-- Progress -->
-    <div id="waveform"></div>
-    <div id="bar"></div>
-    <div id="progress"></div>
+    <!-- ThreeJS -->
+    <script src="./js/vendor/three.min.js"></script>
+    <script src="js/loaders/OBJLoader.js"></script>
 
-    <!-- Playlist -->
-    <div id="playlist" tabindex="1">
-      <div id="list"></div>
-    </div>
+    <!-- Audio Player -->
+    <script src="./js/vendor/howler.core.min.js"></script>
+    <script src="./js/vendor/siriwave.js"></script>
+    <script src="./js/vendor/player.js"></script>
 
-    <!-- Volume -->
-    <div id="volume" class="fadeout">
-      <div id="barFull" class="bar"></div>
-      <div id="barEmpty" class="bar"></div>
-      <div id="sliderBtn"></div>
-    </div>
-  </div>
+    <script>
+      var container;
 
-  <!-- ThreeJS -->
-  <script src="./js/vendor/three.min.js"></script>
-  <script src="js/loaders/OBJLoader.js"></script>
+      var camera, scene, renderer;
 
-  <!-- Audio Player -->
-  <script src="./js/vendor/howler.core.min.js"></script>
-  <script src="./js/vendor/siriwave.js"></script>
-  <script src="./js/vendor/player.js"></script>
+      var mouseX = 0,
+        mouseY = 0;
 
-  <script>
+      var windowHalfX = window.innerWidth / 2;
+      var windowHalfY = window.innerHeight / 2;
 
-    var container;
+      var object;
 
-    var camera, scene, renderer;
+      var materials = [],
+        parameters;
 
-    var mouseX = 0, mouseY = 0;
+      init();
+      animate();
 
-    var windowHalfX = window.innerWidth / 2;
-    var windowHalfY = window.innerHeight / 2;
+      function init() {
+        container = document.createElement("div");
+        document.body.appendChild(container);
 
-    var object;
+        camera = new THREE.PerspectiveCamera(
+          45,
+          window.innerWidth / window.innerHeight,
+          1,
+          2000
+        );
+        camera.position.z = 150;
+        camera.position.x = -50;
 
-    var materials = [], parameters;
+        // scene
 
-    init();
-    animate();
+        scene = new THREE.Scene();
 
+        var ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+        scene.add(ambientLight);
 
-    function init() {
+        var pointLight = new THREE.PointLight(0xffffff, 0.8);
+        camera.add(pointLight);
+        scene.add(camera);
 
-      container = document.createElement('div');
-      document.body.appendChild(container);
+        // Below this is the snow field
+        scene.fog = new THREE.FogExp2(0x000000, 0.0008);
 
-      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
-      camera.position.z = 150;
-      camera.position.x = -50;
-
-      // scene
-
-      scene = new THREE.Scene();
-
-      var ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
-      scene.add(ambientLight);
-
-      var pointLight = new THREE.PointLight(0xffffff, 0.8);
-      camera.add(pointLight);
-      scene.add(camera);
-
-      // Below this is the snow field
-      scene.fog = new THREE.FogExp2(0x000000, 0.0008);
-
-      var geometry = new THREE.BufferGeometry();
-      var vertices = [];
-      var textureLoader = new THREE.TextureLoader();
-      var sprite1 = textureLoader.load('./assets/textures/snowflake1.png');
-      var sprite2 = textureLoader.load('./assets/textures/snowflake2.png');
-      var sprite3 = textureLoader.load('./assets/textures/snowflake3.png');
-      var sprite4 = textureLoader.load('./assets/textures/snowflake4.png');
-      var sprite5 = textureLoader.load('./assets/textures/snowflake5.png');
-      for (var i = 0; i < 10000; i++) {
-        var x = Math.random() * 2000 - 1000;
-        var y = Math.random() * 2000 - 1000;
-        var z = Math.random() * 2000 - 1000;
-        vertices.push(x, y, z);
-      }
-      geometry.addAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-      parameters = [
-        [[1.0, 0.2, 0.5], sprite2, 20],
-        [[0.95, 0.1, 0.5], sprite3, 15],
-        [[0.90, 0.05, 0.5], sprite1, 10],
-        [[0.85, 0, 0.5], sprite5, 8],
-        [[0.80, 0, 0.5], sprite4, 5]
-      ];
-      for (var i = 0; i < parameters.length; i++) {
-        var color = parameters[i][0];
-        var sprite = parameters[i][1];
-        var size = parameters[i][2];
-        materials[i] = new THREE.PointsMaterial({ size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: false });
-        materials[i].color.setHSL(color[0], color[1], color[2]);
-        var particles = new THREE.Points(geometry, materials[i]);
-        particles.rotation.x = Math.random() * 6;
-        particles.rotation.y = Math.random() * 6;
-        particles.rotation.z = Math.random() * 6;
-        scene.add(particles);
-      }
-
-      // Above this is the snow field
-
-      // manager
-
-      function loadModel() {
-
-        object.traverse(function (child) {
-
-          if (child.isMesh) child.material.map = texture;
-
-        });
-
-        object.position.y = - 95;
-        object.scale.set(.5, .5, .5);
-        scene.add(object);
-
-
-      }
-
-      var manager = new THREE.LoadingManager(loadModel);
-
-      manager.onProgress = function (item, loaded, total) {
-
-        console.log(item, loaded, total);
-
-      };
-
-      // texture
-
-      var textureLoader = new THREE.TextureLoader(manager);
-
-      var texture = textureLoader.load('assets/textures/rex.png');
-
-      // model
-
-      function onProgress(xhr) {
-
-        if (xhr.lengthComputable) {
-
-          var percentComplete = xhr.loaded / xhr.total * 100;
-          console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
-
+        var geometry = new THREE.BufferGeometry();
+        var vertices = [];
+        var textureLoader = new THREE.TextureLoader();
+        var sprite1 = textureLoader.load("./assets/textures/snowflake1.png");
+        var sprite2 = textureLoader.load("./assets/textures/snowflake2.png");
+        var sprite3 = textureLoader.load("./assets/textures/snowflake3.png");
+        var sprite4 = textureLoader.load("./assets/textures/snowflake4.png");
+        var sprite5 = textureLoader.load("./assets/textures/snowflake5.png");
+        for (var i = 0; i < 10000; i++) {
+          var x = Math.random() * 2000 - 1000;
+          var y = Math.random() * 2000 - 1000;
+          var z = Math.random() * 2000 - 1000;
+          vertices.push(x, y, z);
+        }
+        geometry.addAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(vertices, 3)
+        );
+        parameters = [
+          [[1.0, 0.2, 0.5], sprite2, 20],
+          [[0.95, 0.1, 0.5], sprite3, 15],
+          [[0.9, 0.05, 0.5], sprite1, 10],
+          [[0.85, 0, 0.5], sprite5, 8],
+          [[0.8, 0, 0.5], sprite4, 5]
+        ];
+        for (var i = 0; i < parameters.length; i++) {
+          var color = parameters[i][0];
+          var sprite = parameters[i][1];
+          var size = parameters[i][2];
+          materials[i] = new THREE.PointsMaterial({
+            size: size,
+            map: sprite,
+            blending: THREE.AdditiveBlending,
+            depthTest: false,
+            transparent: false
+          });
+          materials[i].color.setHSL(color[0], color[1], color[2]);
+          var particles = new THREE.Points(geometry, materials[i]);
+          particles.rotation.x = Math.random() * 6;
+          particles.rotation.y = Math.random() * 6;
+          particles.rotation.z = Math.random() * 6;
+          scene.add(particles);
         }
 
+        // Above this is the snow field
+
+        // manager
+
+        function loadModel() {
+          object.traverse(function(child) {
+            if (child.isMesh) child.material.map = texture;
+          });
+
+          object.position.y = -95;
+          object.scale.set(0.5, 0.5, 0.5);
+          scene.add(object);
+        }
+
+        var manager = new THREE.LoadingManager(loadModel);
+
+        manager.onProgress = function(item, loaded, total) {
+          console.log(item, loaded, total);
+        };
+
+        // texture
+
+        var textureLoader = new THREE.TextureLoader(manager);
+
+        var texture = textureLoader.load("assets/textures/rex.png");
+
+        // model
+
+        function onProgress(xhr) {
+          if (xhr.lengthComputable) {
+            var percentComplete = (xhr.loaded / xhr.total) * 100;
+            console.log(
+              "model " + Math.round(percentComplete, 2) + "% downloaded"
+            );
+          }
+        }
+
+        function onError() {}
+
+        var loader = new THREE.OBJLoader(manager);
+
+        loader.load(
+          "assets/models/RexwHat.obj",
+          function(obj) {
+            object = obj;
+          },
+          onProgress,
+          onError
+        );
+
+        //
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        document.addEventListener("mousemove", onDocumentMouseMove, false);
+
+        //
+
+        window.addEventListener("resize", onWindowResize, false);
       }
 
-      function onError() { }
+      function onWindowResize() {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
 
-      var loader = new THREE.OBJLoader(manager);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
 
-      loader.load('assets/models/rex.obj', function (obj) {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
 
-        object = obj;
-
-      }, onProgress, onError);
+      function onDocumentMouseMove(event) {
+        mouseX = (event.clientX - windowHalfX) / 2;
+        mouseY = (event.clientY - windowHalfY) / 2;
+      }
 
       //
 
-      renderer = new THREE.WebGLRenderer();
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      container.appendChild(renderer.domElement);
+      function animate() {
+        requestAnimationFrame(animate);
+        render();
+      }
 
-      document.addEventListener('mousemove', onDocumentMouseMove, false);
+      function render() {
+        var time = Date.now() * 0.00005;
+        camera.position.x += (mouseX - camera.position.x) * 0.001;
+        camera.position.y += (-mouseY - camera.position.y) * 0.001;
 
-      //
-
-      window.addEventListener('resize', onWindowResize, false);
-
-
-
-    }
-
-    function onWindowResize() {
-
-      windowHalfX = window.innerWidth / 2;
-      windowHalfY = window.innerHeight / 2;
-
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(window.innerWidth, window.innerHeight);
-
-    }
-
-    function onDocumentMouseMove(event) {
-
-      mouseX = (event.clientX - windowHalfX) / 2;
-      mouseY = (event.clientY - windowHalfY) / 2;
-
-    }
-
-    //
-
-    function animate() {
-
-      requestAnimationFrame(animate);
-      render();
-
-    }
-
-    function render() {
-      var time = Date.now() * 0.00005;
-      camera.position.x += (mouseX - camera.position.x) * .001;
-      camera.position.y += (- mouseY - camera.position.y) * .001;
-
-      for (var i = 0; i < scene.children.length; i++) {
-        var object = scene.children[i];
-        if (object instanceof THREE.Points) {
-          object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+        for (var i = 0; i < scene.children.length; i++) {
+          var object = scene.children[i];
+          if (object instanceof THREE.Points) {
+            object.rotation.y = time * (i < 4 ? i + 1 : -(i + 1));
+          }
         }
+        for (var i = 0; i < materials.length; i++) {
+          var color = parameters[i][0];
+          var h = ((360 * (color[0] + time)) % 360) / 360;
+          materials[i].color.setHSL(h, color[1], color[2]);
+        }
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
       }
-      for (var i = 0; i < materials.length; i++) {
-        var color = parameters[i][0];
-        var h = (360 * (color[0] + time) % 360) / 360;
-        materials[i].color.setHSL(h, color[1], color[2]);
-      }
-      camera.lookAt(scene.position);
-
-      renderer.render(scene, camera);
-
-    }
-
-  </script>
-
-
-</body>
-
+    </script>
+  </body>
 </html>
