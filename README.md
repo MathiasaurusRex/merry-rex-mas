@@ -1,2 +1,2 @@
 # merry-rex-mas
-Coming Winter 2018
+For the time being -- spin up a local server within threejs--rexample. Code is in a pretty gross state -- kinda throwing things together.
