@@ -244,8 +244,11 @@
 
       function render() {
         var time = Date.now() * 0.00005;
-        camera.position.x += (mouseX - camera.position.x) * 0.001;
-        camera.position.y += (-mouseY - camera.position.y) * 0.001;
+        camera.position.x += (mouseX - camera.position.x) * 0.005;
+        camera.position.y += (mouseY - camera.position.y) * 0.001;
+
+        // camera.position.x = time * Math.cos( 0 );
+        // camera.position.z = time * Math.sin( angle );
 
         for (var i = 0; i < scene.children.length; i++) {
           var object = scene.children[i];
