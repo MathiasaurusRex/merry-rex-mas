@@ -292,12 +292,22 @@ Player.prototype = {
 var player = new Player([
   {
     title: "12 Days of Christmas",
-    file: "12daysofChristmas",
+    file: "12DaysofChristmas",
     howl: null
   },
   {
     title: "Jingle Bells",
     file: "JingleBells",
+    howl: null
+  },
+  {
+    title: "Silent Night",
+    file: "SilentNight",
+    howl: null
+  },
+  {
+    title: "Away in a Manger",
+    file: "AwayinaManger",
     howl: null
   }
 ]);
