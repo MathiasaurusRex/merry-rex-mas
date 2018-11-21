@@ -255,10 +255,13 @@ Player.prototype = {
     var self = this;
     var display = playlist.style.display === "block" ? "none" : "block";
 
-    setTimeout(function() {
-      playlist.style.display = display;
-      playlist.focus();
-    }, display === "block" ? 0 : 500);
+    setTimeout(
+      function() {
+        playlist.style.display = display;
+        playlist.focus();
+      },
+      display === "block" ? 0 : 500
+    );
     playlist.className = display === "block" ? "fadein" : "fadeout";
   },
 
@@ -269,9 +272,12 @@ Player.prototype = {
     var self = this;
     var display = volume.style.display === "block" ? "none" : "block";
 
-    setTimeout(function() {
-      volume.style.display = display;
-    }, display === "block" ? 0 : 500);
+    setTimeout(
+      function() {
+        volume.style.display = display;
+      },
+      display === "block" ? 0 : 500
+    );
     volume.className = display === "block" ? "fadein" : "fadeout";
   },
 
@@ -295,11 +301,11 @@ var player = new Player([
     file: "12DaysofChristmas",
     howl: null
   },
-  {
-    title: "Jingle Bells",
-    file: "JingleBells",
-    howl: null
-  },
+  // {
+  //   title: "Jingle Bells",
+  //   file: "JingleBells",
+  //   howl: null
+  // },
   {
     title: "Silent Night",
     file: "SilentNight",

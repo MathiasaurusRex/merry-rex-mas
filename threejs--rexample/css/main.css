@@ -106,6 +106,27 @@ textarea {
   margin: 3rem;
   border: 1px solid gold;
 }
+
+#title a,
+#title a:visited {
+  color: white !important;
+}
+
+@media (min-width: 600px) {
+  #title {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 600px) {
+  .controlsInner {
+    top: 60%;
+  }
+  .screen-decoration {
+    border-bottom: none;
+  }
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
