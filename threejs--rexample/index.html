@@ -3,11 +3,54 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Merry Rexmas</title>
+
     <meta name="description" content="" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Primary Meta Tags -->
+    <title>Merry Rexmas 2018 | Homepage</title>
+    <meta
+      name="title"
+      content="Merry Rexmas | A T-Rex inspired Christmas Carol"
+    />
+    <meta
+      name="description"
+      content="Merry Rexmas | A T-Rex inspired Christmas Carol. Built by Mathias (Rex) Rechtzigel."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.merryrexmas.com/" />
+    <meta
+      property="og:title"
+      content="Merry Rexmas | A T-Rex inspired Christmas Carol"
+    />
+    <meta
+      property="og:description"
+      content="Merry Rexmas | A T-Rex inspired Christmas Carol. Built by Mathias (Rex) Rechtzigel."
+    />
+    <meta
+      property="og:image"
+      content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.merryrexmas.com/" />
+    <meta
+      property="twitter:title"
+      content="Merry Rexmas | A T-Rex inspired Christmas Carol"
+    />
+    <meta
+      property="twitter:description"
+      content="Merry Rexmas | A T-Rex inspired Christmas Carol. Built by Mathias (Rex) Rechtzigel."
+    />
+    <meta
+      property="twitter:image"
+      content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png"
     />
 
     <link rel="manifest" href="site.webmanifest" />
@@ -21,24 +64,32 @@
 
   <body>
     <div class="screen-decoration">
-      <div id="title">
-        <span id="track"></span>
-        <div id="timer">0:00</div>
-        <div id="duration">0:00</div>
-      </div>
+      <div id="title"><span id="track"></span></div>
 
       <!-- Controls -->
       <div class="controlsOuter">
-        <button class="btn" id="playlistBtn"></button>
+        <button class="btn" id="playlistBtn">
+          <span class="visuallyhidden">Playlist</span>
+        </button>
         <div class="controlsInner">
           <div id="loading"></div>
 
-          <button class="btn" id="prevBtn"></button>
-          <button class="btn" id="playBtn"></button>
-          <button class="btn" id="pauseBtn"></button>
-          <button class="btn" id="nextBtn"></button>
+          <button class="btn" id="prevBtn">
+            <span class="visuallyhidden">Previous</span>
+          </button>
+          <button class="btn" id="playBtn">
+            <span class="visuallyhidden">Play</span>
+          </button>
+          <button class="btn" id="pauseBtn">
+            <span class="visuallyhidden">Pause</span>
+          </button>
+          <button class="btn" id="nextBtn">
+            <span class="visuallyhidden">Next</span>
+          </button>
         </div>
-        <button class="btn" id="volumeBtn"></button>
+        <button class="btn" id="volumeBtn">
+          <span class="visuallyhidden">Volume</span>
+        </button>
       </div>
 
       <!-- Progress -->
