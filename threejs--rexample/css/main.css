@@ -119,7 +119,7 @@ textarea {
   }
 }
 
-@media (max-width: 600px) {
+@media (max -width: 600px) {
   .controlsInner {
     top: 60%;
   }
