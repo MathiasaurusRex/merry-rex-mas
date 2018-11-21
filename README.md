@@ -1,2 +1,6 @@
 # merry-rex-mas
-For the time being -- spin up a local server within threejs--rexample. Code is in a pretty gross state -- kinda throwing things together.
+https://www.merryrexmas.com/
+
+Are you fed up with modern renditions of many christmas carols, and wish you could get back to the classics -- to a land before time? Well this is the thing for you.
+
+Have a very merry Rexmas ya filthy prehistoric animals.
